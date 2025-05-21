@@ -1,0 +1,69 @@
+services:
+  frontend:
+    build: ./Absensi-Mahasiswa
+    container_name: absensimahasiswa
+    ports:
+      - "3000:80"
+    volumes:
+      - ./Absensi-Mahasiswa:/app
+      - /app/node_modules
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    depends_on:
+      - server
+    networks:
+      - app-network
+
+  server:
+    build: ./backend
+    container_name: absensi-backend
+    restart: always
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    environment:
+      - DB_HOST=absensi-mahasiswa-db
+      - DB_USER=root
+      - DB_PASSWORD=rootpassword
+      - DB_NAME=absensi_mahasiswa
+      - DB_PORT=3306
+      - PORT=5000
+    depends_on:
+      - db
+    networks:
+      - app-network
+
+  db:
+    image: mysql:5.7
+    container_name: absensi-mahasiswa-db
+    environment:
+      - MYSQL_ROOT_PASSWORD=rootpassword
+      - MYSQL_DATABASE=absensi_mahasiswa
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./absensi_mahasiswa.sql:/docker-entrypoint-initdb.d/absensi_mahasiswa.sql
+    networks:
+      - app-network
+
+  ngrok:
+    image: ngrok/ngrok:latest
+    restart: always
+    command: start --all --config /ngrok/ngrok.yml
+    volumes:
+      - ./ngrok.yml:/ngrok/ngrok.yml:ro
+    depends_on:
+      - frontend
+      - server
+    networks:
+      - app-network
+
+volumes:
+  db_data:
+
+networks:
+  app-network:
+    driver: bridge
