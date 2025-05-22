@@ -54,13 +54,12 @@ const Sidebar = () => {
     else setActivePage(path.substring(1));
   }, []);
 
-  let Profil;
-  if (userData?.foto_profil) {
-    const APP_URL = import.meta.env.VITE_APP_URL;
-    Profil = APP_URL + "public/profile_images/" + userData?.foto_profil;
-  } else {
-    Profil = "img/placeholder.jpg";
-  }
+  const Profil =
+    userData?.foto_profil && userData.foto_profil.trim() !== ""
+      ? `${APP_URL}/public/profile_images/${userData.foto_profil}`
+      : "img/placeholder.jpg";
+      console.log(Profil);
+      
   return (
     <div className="fixed left-0 top-0 h-[720px] m-2  z-10">
       <div className=" backdrop-blur-xl w-48 h-full border border-gray-400 rounded-lg  flex flex-col p-6 ">

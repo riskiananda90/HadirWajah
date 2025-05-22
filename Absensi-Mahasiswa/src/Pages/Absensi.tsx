@@ -44,7 +44,7 @@ const Absensi = () => {
     time: null,
   });
   const [statusAbsensi, setStatusAbsensi] = useState("tidak ada absensi");
-  const API_URL = "https://3f7d-112-215-229-64.ngrok-free.app";
+  const API_URL = import.meta.env.VITE_API_URL;
   // const API_URL = "http://localhost:5000";
   const { data: cachedJadwal } = useJadwalPelajaran();
 

@@ -8,6 +8,7 @@ import authRoutes from "./routes/auth.routes";
 import jadwalPerkuliahanRoutes from "./routes/jadwalPerkuliahan.routes";
 import qr from "./routes/qr.routes";
 import absensiRoutes from "./routes/absensi.routes";
+import path from "path";
 
 dotenv.config();
 const app = express();
@@ -29,7 +30,7 @@ app.use("/jadwal", pelarajanRoutes);
 app.use("/jadwal", jadwalPerkuliahanRoutes);
 app.use("/qr", qr);
 app.use("/api", absensiRoutes);
-
+app.use("/public", express.static(path.join(__dirname, "public")));
 console.log("Memulai server...");
 (async () => {
   try {

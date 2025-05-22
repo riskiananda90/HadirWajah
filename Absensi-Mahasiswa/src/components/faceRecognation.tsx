@@ -28,8 +28,7 @@ const FaceRecognition: React.FC<FaceRecognitionProps> = ({
   const countdownRef = useRef<NodeJS.Timeout | null>(null);
   const detectionIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
-  // const API_BASE_URL = "http://server:5000";
-  const API_BASE_URL = "https://3f7d-112-215-229-64.ngrok-free.app";
+  const API_BASE_URL = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
     loadModels();

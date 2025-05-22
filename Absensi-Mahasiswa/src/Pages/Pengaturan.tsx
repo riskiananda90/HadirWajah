@@ -20,13 +20,12 @@ export default function Pengaturan() {
       setUserData(JSON.parse(storedUserData));
     }
   }, []);
-  let Profil;
-  if (userData?.foto_profil) {
-    const APP_URL = import.meta.env.VITE_APP_URL;
-    Profil = APP_URL + "public/profile_images/" + userData?.foto_profil;
-  } else {
-    Profil = "img/placeholder.jpg";
-  }
+  const APP_URL = import.meta.env.VITE_APP_URL;
+  const Profil =
+    userData?.foto_profil && userData.foto_profil.trim() !== ""
+      ? `${APP_URL}/public/profile_images/${userData.foto_profil}`
+      : "img/placeholder.jpg";
+  console.log(Profil);
   return (
     <>
       <div className="">
@@ -146,9 +145,7 @@ export default function Pengaturan() {
             </div>
 
             <div className="p-6 border border-gray-400 rounded-lg my-5 backdrop-blur-3xl ">
-              <h2 className="text-lg font-medium text-gray-900 mb-4">
-                Sandi
-              </h2>
+              <h2 className="text-lg font-medium text-gray-900 mb-4">Sandi</h2>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>

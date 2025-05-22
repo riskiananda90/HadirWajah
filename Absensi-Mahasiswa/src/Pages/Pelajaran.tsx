@@ -3,6 +3,7 @@ import arrow_left from "../assets/arrow-left.svg";
 import { Progress } from "../components/ui/progress";
 import { useJadwalPelajaran } from "../hooks/useJadwalPelajaran";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 interface Pelajaran {
   id: number;
@@ -19,6 +20,7 @@ interface Pelajaran {
 const Pelajaran = () => {
   const { data: pelajaranData, isLoading, error } = useJadwalPelajaran();
   const [absenStatus, setAbsenStatus] = useState<Record<number, string>>({});
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (pelajaranData && Array.isArray(pelajaranData)) {
@@ -29,7 +31,8 @@ const Pelajaran = () => {
             pelajaran.id,
             pelajaran.jam_mulai,
             pelajaran.jam_selesai,
-            user.id
+            user.id,
+            pelajaran.hari
           );
         }
       });
@@ -49,13 +52,13 @@ const Pelajaran = () => {
   const persentase = (a: number, b: number) => {
     return (a / b) * 100;
   };
-  const API_URL = "https://3f7d-112-215-229-64.ngrok-free.app";
-  // const API_URL = "http://localhost:5000";
+  const API_URL = import.meta.env.VITE_API_URL;
   const fetchAbsensi = async (
     id: number,
     jamMulai: string,
     jamSelesai: string,
-    userId: number
+    userId: number,
+    hari: string
   ) => {
     try {
       const response = await fetch(
@@ -64,7 +67,10 @@ const Pelajaran = () => {
       const sekarang = new Date();
       const mulai = new Date();
       const selesai = new Date();
-
+      const hariIni = sekarang
+        .toLocaleDateString("id-ID", { weekday: "long" })
+        .toLowerCase();
+      const hariJadwal = hari.toLowerCase();
       const [startJam, startMenit] = jamMulai.split(":");
       const [endJam, endMenit] = jamSelesai.split(":");
 
@@ -72,7 +78,7 @@ const Pelajaran = () => {
       selesai.setHours(Number(endJam), Number(endMenit));
       const data = await response.json();
       if (!data || !data.data) {
-        if (sekarang > mulai && sekarang < selesai) {
+        if (hariIni === hariJadwal && sekarang > mulai && sekarang < selesai) {
           setAbsenStatus((prevStatus) => ({
             ...prevStatus,
             [id]: "Absen sekarang",
@@ -141,13 +147,18 @@ const Pelajaran = () => {
       />
 
       <li
+        onClick={() => {
+          if (absenStatus[pelajaran.id] === "Absen sekarang") {
+            navigate("/absensi");
+          }
+        }}
         className={`w-full text-center text-white rounded-md p-2 ${
           absenStatus[pelajaran.id] === "Sudah absen"
             ? "bg-green-600"
             : absenStatus[pelajaran.id] === "Absen sekarang"
-            ? "bg-red-600 opacity-75"
+            ? "bg-red-600 opacity-75 cursor-pointer hover:opacity-100 animate-pulse ease-in-out duration-300"
             : absenStatus[pelajaran.id] === "Tidak ada absen"
-            ? "bg-amber-600 opacity-75"
+            ? "bg-gray-600 opacity-75"
             : "bg-gray-600"
         }`}
       >

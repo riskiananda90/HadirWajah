@@ -69,7 +69,7 @@ export interface AuthApiResponse {
   token?: string;
 }
 
-export const API_URL = "https://3f7d-112-215-229-64.ngrok-free.app";
+export const API_URL = import.meta.env.VITE_API_URL;
 // export const API_URL = "http://localhost:5000";
 
 export const loginUser = async (
