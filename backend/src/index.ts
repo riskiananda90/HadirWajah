@@ -5,7 +5,6 @@ import pelarajanRoutes from "./routes/pelajaran.routes";
 import mahasiswaRoutes from "./routes/mahasiswa.routes";
 import { connetcDB } from "./models/db";
 import authRoutes from "./routes/auth.routes";
-import jadwalPerkuliahanRoutes from "./routes/jadwalPerkuliahan.routes";
 import qr from "./routes/qr.routes";
 import absensiRoutes from "./routes/absensi.routes";
 import path from "path";
@@ -16,10 +15,12 @@ const port = process.env.PORT || 5000;
 
 app.use(
   cors({
-    origin: "*", 
+    origin: "https://hadirwajah.my.id",
     credentials: true,
   })
 );
+
+app.options("*", cors());
 app.use(express.json({ limit: "5mb" }));
 app.use(express.urlencoded({ extended: true, limit: "5mb" }));
 
@@ -27,10 +28,8 @@ app.use("/api", pelarajanRoutes);
 app.use("/api", mahasiswaRoutes);
 app.use("/auth", authRoutes);
 app.use("/jadwal", pelarajanRoutes);
-app.use("/jadwal", jadwalPerkuliahanRoutes);
 app.use("/qr", qr);
 app.use("/api", absensiRoutes);
-app.use("/public", express.static(path.join(__dirname, "public")));
 console.log("Memulai server...");
 (async () => {
   try {

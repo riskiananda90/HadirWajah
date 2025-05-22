@@ -5,7 +5,9 @@ const db_1 = require("../models/db");
 const getPelajaran = async (req, res) => {
     try {
         const connection = (0, db_1.getConnection)();
-        const [result] = await connection.execute("SELECT * FROM mata_kuliah mk JOIN jadwal_perkuliahan jp ON mk.id = jp.id_mk");
+        const idMahasiswa = req.query.id_mahasiswa;
+        const [result] = await connection.execute(`SELECT jp.id,mk.nama_mk, mk.dosen,  mk.hari,jp.pertemuan_ke,jumlah_pertemuan,mk.jam_mulai,mk.jam_selesai, mk.ruang, IFNULL(ab.status_kehadiran, 'Belum absen') AS status_kehadiran FROM mata_kuliah mk       JOIN jadwal_perkuliahan jp ON mk.id = jp.id_mk       LEFT JOIN absensi ab ON jp.id = ab.id_jadwal AND ab.id_mahasiswa = ? ORDER BY mk.hari, mk.jam_mulai`, [idMahasiswa]);
+        console.log(result);
         res.json(result);
     }
     catch (error) {

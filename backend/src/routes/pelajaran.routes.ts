@@ -7,8 +7,7 @@ import {
 
 const router = Router();
 
-router.get("getPelajaran/:id", getPelajaran);
-router.post("addPelajaran", addPelajaran);
+router.post("/addPelajaran", addPelajaran);
 router.get("/getPelajaran", getPelajaran);
 
 export default router;

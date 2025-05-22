@@ -13,12 +13,13 @@ export const getMahasiswa = async (req: Request, res: Response) => {
   }
 };
 
+
 export const addMahasiswa = async (req: Request, res: Response) => {
   try {
     const connection = getConnection();
     const { nim, email, nama, password, foto_profil } = req.body;
     const [result] = await connection.execute(
-      "INSERT INTO Mahasiswa(nim,email, nama, password,foto_profil) VALUES (?,?,?.?,?)",
+      "INSERT INTO Mahasiswa(nim,email, nama, password,foto_profil) VALUES (?,?,?,?,?)",
       [nim, email, nama, password, foto_profil]
     );
     res

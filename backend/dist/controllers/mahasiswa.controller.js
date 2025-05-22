@@ -19,7 +19,7 @@ const addMahasiswa = async (req, res) => {
     try {
         const connection = (0, db_1.getConnection)();
         const { nim, email, nama, password, foto_profil } = req.body;
-        const [result] = await connection.execute("INSERT INTO Mahasiswa(nim,email, nama, password,foto_profil) VALUES (?,?,?.?,?)", [nim, email, nama, password, foto_profil]);
+        const [result] = await connection.execute("INSERT INTO Mahasiswa(nim,email, nama, password,foto_profil) VALUES (?,?,?,?,?)", [nim, email, nama, password, foto_profil]);
         res
             .status(200)
             .send({ message: "Mahasiswa berhasil di tambahkan", result });

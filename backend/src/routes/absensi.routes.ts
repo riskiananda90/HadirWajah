@@ -1,6 +1,6 @@
 import { Router } from "express";
 
-import { addAbsensi, getAbsensi } from "../controllers/absensi.routes";
+import { addAbsensi, getAbsensi } from "../controllers/absensi.controller";
 
 const router = Router();
 

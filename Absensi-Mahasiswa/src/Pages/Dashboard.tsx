@@ -19,6 +19,8 @@ interface userData {
 interface Pelajaran {
   id: number;
   nama_mk: string;
+
+  
   dosen: string;
   hari: string;
   jam_mulai: string;

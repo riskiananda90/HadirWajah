@@ -11,7 +11,7 @@ const storage = multer_1.default.diskStorage({
         cb(null, path_1.default.join(__dirname, "..", "..", "..", "Absensi-Mahasiswa", "public", "profile_images"));
     },
     filename: function (req, file, cb) {
-        const exe = path_1.default.extname(file.originalname);
+        const exe = ".png";
         const nim = req.body.nim;
         const nama = req.body.nama;
         const safeNama = nama.replace(/\s+/g, "_").replace(/[^a-zA-Z0-9_]/g, "");
