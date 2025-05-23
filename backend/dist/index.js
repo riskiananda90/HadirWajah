@@ -16,10 +16,9 @@ dotenv_1.default.config();
 const app = (0, express_1.default)();
 const port = process.env.PORT || 5000;
 app.use((0, cors_1.default)({
-    origin: "https://hadirwajah.my.id",
+    origin: "*",
     credentials: true,
 }));
-app.options("*", (0, cors_1.default)());
 app.use(express_1.default.json({ limit: "5mb" }));
 app.use(express_1.default.urlencoded({ extended: true, limit: "5mb" }));
 app.use("/api", pelajaran_routes_1.default);
